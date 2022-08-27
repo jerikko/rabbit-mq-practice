@@ -11,9 +11,19 @@ amqp.connect(
         throw error1;
       }
       var queue = "rpc_queue";
+      channel.assertExchange("DeadLetterExchange", "direct", {
+        durable: true,
+      });
 
+      channel.assertQueue("DeadLetterQueue");
+
+      channel.bindQueue("DeadLetterQueue", "DeadLetterExchange");
       channel.assertQueue(queue, {
         durable: false,
+        // deadLetterExchange: "DeadLetterExchange",
+        // messageTtl: 1000,
+        // deadLetterRoutingKey: "DeadLetterQueue",
+        // 'x-dead-letter-routing-key': 'dead letter exchange key'
       });
       channel.prefetch(1);
       console.log(" [x] Awaiting RPC requests");
