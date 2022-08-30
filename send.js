@@ -1,27 +1,43 @@
 var amqp = require('amqplib/callback_api');
 
-
-amqp.connect('amqp://localhost', function(error0, connection) {
+amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw', function (error0, connection) {
   if (error0) {
     throw error0;
   }
-  connection.createChannel(function(error1, channel) {
+  connection.createChannel(function (error1, channel) {
     if (error1) {
       throw error1;
     }
-    var queue = 'hello';
+    var queue = 'test';
     var msg = 'Hello world';
 
+    // ASSERTING 2nd DEAD LETTER EXCHANGE AND QUEUE
+    channel.assertExchange('DLX2', 'fanout');
+    channel.assertQueue('DLQ2', { durable: true });
+    channel.bindQueue('DLQ2', 'DLX2');
+
+    // ASSERTING 1st DEAD LETTER EXCHANGE AND QUEUE
+    channel.assertExchange('DLX1', 'fanout');
+    channel.assertQueue('DLQ1', {
+      durable: true,
+      deadLetterExchange: 'DLX2',
+      maxLength: 1,
+    });
+    channel.bindQueue('DLQ1', 'DLX1');
+
+    // ASSERTING PRIMARY QUEUE
     channel.assertQueue(queue, {
-      durable: false
+      durable: false,
+      deadLetterExchange: 'DLX1',
+      maxLength: 1,
     });
 
     channel.sendToQueue(queue, Buffer.from(msg));
-    console.log(" [x] Sent %s", msg);
+    console.log(' [x] Sent %s', msg);
   });
 
-  setTimeout(function() {
+  setTimeout(function () {
     connection.close();
-    process.exit(0)
-    }, 500);
+    process.exit(0);
+  }, 500);
 });

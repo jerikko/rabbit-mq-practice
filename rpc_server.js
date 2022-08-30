@@ -33,8 +33,9 @@ amqp.connect('amqp://localhost', function(error0, connection) {
 });
 
 function fibonacci(n) {
-  if (n == 0 || n == 1)
-    return n;
+  cache = {0:0,1:1}
+  if (cache[n]) return cache[n];
   else
-    return fibonacci(n - 1) + fibonacci(n - 2);
+    cache[n] = fibonacci(n - 1) + fibonacci(n - 2);
+    return cache[n]
 }
