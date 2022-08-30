@@ -26,9 +26,10 @@ amqp.connect(
         deadLetterExchange: "deadLetterEx",
         maxLength: 1,
       });
-
+      // console.log(queue, "this is queue");
       channel.sendToQueue(queue, Buffer.from(msg), {
         // expiration: 5000,
+        timestamp: Date.now(),
       });
       console.log(" [x] Sent %s", msg);
     });

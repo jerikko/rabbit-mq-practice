@@ -27,7 +27,7 @@ amqp.connect(
       channel.bindQueue("DeadLetterQueue", "DeadLetterExchange");
 
       channel.assertQueue(
-        "aliveLetter",
+        "",
         {
           exclusive: true,
           deadLetterExchange: "DeadLetterExchange",
