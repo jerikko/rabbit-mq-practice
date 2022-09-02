@@ -11,16 +11,18 @@ amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudam
     var queue = 'test';
     var msg = 'Hello world';
 
+    const OSPExchange = 'OSP-DLExchange'
+
     // ASSERTING 2nd DEAD LETTER EXCHANGE AND QUEUE
-    channel.assertExchange('DLX2', 'fanout');
+    channel.assertExchange(OSPExchange, 'fanout');
     channel.assertQueue('DLQ2', { durable: true });
-    channel.bindQueue('DLQ2', 'DLX2');
+    channel.bindQueue('DLQ2', OSPExchange);
 
     // ASSERTING 1st DEAD LETTER EXCHANGE AND QUEUE
     channel.assertExchange('DLX1', 'fanout');
     channel.assertQueue('DLQ1', {
       durable: true,
-      deadLetterExchange: 'DLX2',
+      deadLetterExchange: OSPExchange,
       maxLength: 1,
     });
     channel.bindQueue('DLQ1', 'DLX1');
