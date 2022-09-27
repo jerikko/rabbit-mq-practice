@@ -8,7 +8,7 @@ amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudam
     if (error1) {
       throw error1;
     }
-    var queue = 'test';
+    var queue = 'sign-up';
     var msg = 'Hello world';
 
     const OSPExchange = 'OSP-DLExchange'
@@ -34,7 +34,20 @@ amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudam
       maxLength: 1,
     });
 
-    channel.sendToQueue(queue, Buffer.from(msg));
+    channel.sendToQueue(queue, Buffer.from(msg), {
+      contentType: 'text',
+      contentEncoding: 'gzip',
+      priority: 1,
+      correlationId: 'test',
+      replyTo: queue,
+      expiration: 50000,
+      messageId: Math.random().toString(),
+      timestamp: Date.now(),
+      type: 'update',
+      userId: 'xhvmtemw',
+      appId: 'rabbit-mq-practice',
+      clusterId: 'cloudamqp'
+    });
     console.log(' [x] Sent %s', msg);
   });
 
