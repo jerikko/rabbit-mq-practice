@@ -1,7 +1,7 @@
 var amqp = require('amqplib/callback_api');
 
 
-amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw', function(error0, connection) {
+amqp.connect('amqps://vymscxik:W5MfsidhcnUgEYw69jok5o4dI0_Bir0c@gull.rmq.cloudamqp.com/vymscxik', function(error0, connection) {
   if (error0) {
     throw error0;
   }

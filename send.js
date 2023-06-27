@@ -1,6 +1,6 @@
 var amqp = require('amqplib/callback_api');
 
-amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw', function (error0, connection) {
+amqp.connect('amqps://vymscxik:W5MfsidhcnUgEYw69jok5o4dI0_Bir0c@gull.rmq.cloudamqp.com/vymscxik', function (error0, connection) {
   if (error0) {
     throw error0;
   }
@@ -11,7 +11,7 @@ amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudam
     var queue = 'sign-up';
     var msg = 'Hello world';
 
-    const OSPExchange = 'OSP-DLExchange'
+    const OSPExchange = 'RabbitTracks-DLExchange'
 
     // ASSERTING 2nd DEAD LETTER EXCHANGE AND QUEUE
     channel.assertExchange(OSPExchange, 'fanout');
@@ -44,7 +44,7 @@ amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudam
       messageId: Math.random().toString(),
       timestamp: Date.now(),
       type: 'update',
-      userId: 'xhvmtemw',
+      userId: 'vymscxik',
       appId: 'rabbit-mq-practice',
       clusterId: 'cloudamqp'
     });
